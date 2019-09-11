@@ -1,28 +1,58 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <section class="todoapp">
+      <header class="header">
+        <h1 class="title">todos</h1>
+        <input
+          class="new-todo"
+          placeholder="What needs to be done?"
+          v-model="newTodo"
+          @keyup.enter="addTodo"
+        />
+      </header>
+      <section class="main">
+        <input class="toggle-all" type="checkbox" />
+        <ul class="todo-list">
+          <li class="todo" v-for="(todo, key) in todos" :key="key">
+            <div class="view">
+              <label>{{ todo }}</label>
+              <button class="destroy" @click="removeTodo(todo)"></button>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </section>
+    <footer class="footer">
+      <button @click="removeAllTodos" class="clear-completed">Remove all</button>
+    </footer>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  name: "App",
+  data() {
+    return {
+      todos: [],
+      newTodo: ""
+    };
+  },
+  methods: {
+    addTodo() {
+      if (this.newTodo !== "") {
+        this.todos.push(this.newTodo);
+        this.newTodo = "";
+      }
+    },
+    removeTodo(todo) {
+      this.todos.splice(this.todos.indexOf(todo), 1);
+    },
+    removeAllTodos() {
+      this.todos = [];
+    }
   }
-}
+};
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="css" src="../styles.css">
 </style>
